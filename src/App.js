@@ -1,19 +1,69 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 
-function Hello() {
-  return <h1>Hello React Router...</h1>;
-}
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+);
+
+const About = () => (
+  <div>
+    <h2>About</h2>
+  </div>
+);
+
+const Topic = ({ match }) => (
+  <div>
+    <h2>{match.params.topicId}</h2>
+  </div>
+);
+
+const Topics = ({ match }) => (
+  <div>
+    <h2>Topics</h2>
+    <ul>
+      <li>
+        <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/components`}>Components</Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
+      </li>
+    </ul>
+    <br />
+    <Route path={`${match.path}/:topicId`} component={Topic} />
+    <Route
+      exact
+      path={match.path}
+      render={() => <h3>Please select a topic.</h3>}
+    />
+  </div>
+);
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Link to="/Hello">To Hello</Link>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/topics">Topics</Link>
+          </li>
+        </ul>
 
         <br />
 
-        <Route path="/Hello" component={Hello} />
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
       </div>
     );
   }
